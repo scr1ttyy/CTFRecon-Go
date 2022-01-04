@@ -6,7 +6,8 @@ Download the release binary to use or if you want to build the binary itself, ma
 
 ```bash
 1. git clone <https://github.com/hambyhacks/CTFRecon-Go>
-2. go build .
+2. cd CTFRecon-Go/
+3. go build .
 ```
 
 CTFRecon-Go binary should be created after using ``go build .``
