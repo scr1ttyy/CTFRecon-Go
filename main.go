@@ -7,6 +7,8 @@ import (
 	"os/exec"
 	"os/user"
 	"regexp"
+
+	"github.com/hambyhacks/CTFRecon-Go/scripts"
 )
 
 func main() {
@@ -49,8 +51,8 @@ func main() {
 	f.WriteString(*ip + " " + *dir + "." + *platform + "\n")
 
 	// Run Scripts
-	c := make(chan []byte)
-	go Nmap(*ip, *dir, c)
+	c := make(chan []byte, 2)
+	Nmap(*ip, *dir, c)
 	go GoBuster(*ip, *dir, *wordlist, c)
 
 	// Change Permissions of Directories.
@@ -63,13 +65,14 @@ func main() {
 
 func Nmap(ip, dir string, c chan []byte) {
 	var nmap_result string = dir + "/" + ip + "/scans/" + dir + "_nmapScan.txt"
+	portsToScan := scripts.PortScan(ip)
 	nmap_path, err := exec.LookPath("nmap")
 	if err != nil {
 		fmt.Println(err)
 	}
 	nmap_scan := &exec.Cmd{
 		Path:   nmap_path,
-		Args:   []string{nmap_path, "-T4", "-p-", "-oN", nmap_result, ip},
+		Args:   []string{nmap_path, "-A", "-T4", "-p", portsToScan, "-oN", nmap_result, ip},
 		Stdout: nil,
 		Stderr: nil,
 	}
