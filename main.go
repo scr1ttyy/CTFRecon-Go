@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"os/exec"
 	"os/user"
 	"regexp"
 
@@ -40,6 +39,7 @@ func main() {
 	// Create directories.
 	for _, i := range dir_list {
 		os.MkdirAll(*dir+"/"+*ip+"/"+i, 0755)
+		os.Chown(*dir+"/"+*ip+"/"+i, 1000, 1000)
 	}
 
 	// Append IP to /etc/hosts file.
@@ -52,53 +52,7 @@ func main() {
 
 	// Run Scripts
 	c := make(chan []byte, 2)
-	Nmap(*ip, *dir, c)
-	go GoBuster(*ip, *dir, *wordlist, c)
-
-	// Change Permissions of Directories.
-	perms := exec.Command("chown", "-R", "1000:1000", *dir+"/")
-	if err := perms.Run(); err != nil {
-		fmt.Println(err)
-	}
-	close(c)
-}
-
-func Nmap(ip, dir string, c chan []byte) {
-	var nmap_result string = dir + "/" + ip + "/scans/" + dir + "_nmapScan.txt"
-	portsToScan := scripts.PortScan(ip)
-	nmap_path, err := exec.LookPath("nmap")
-	if err != nil {
-		fmt.Println(err)
-	}
-	nmap_scan := &exec.Cmd{
-		Path:   nmap_path,
-		Args:   []string{nmap_path, "-A", "-T4", "-p", portsToScan, "-oN", nmap_result, ip},
-		Stdout: nil,
-		Stderr: nil,
-	}
-	if err := nmap_scan.Run(); err != nil {
-		fmt.Println(err)
-	}
-
-	nmap_chan, _ := nmap_scan.Output()
-	c <- nmap_chan
-}
-
-func GoBuster(ip, dir, wordlist string, c chan []byte) {
-	var gobuster_result string = dir + "/" + ip + "/scans/" + dir + "_GoBusterScan.txt"
-	gobuster_path, err := exec.LookPath("gobuster")
-	if err != nil {
-		fmt.Println(err)
-	}
-	gobuster_scan := &exec.Cmd{
-		Path:   gobuster_path,
-		Args:   []string{gobuster_path, "dir", "-u", ip, "-w", wordlist, "-o", gobuster_result, "-t", "64"},
-		Stdout: nil,
-		Stderr: nil,
-	}
-	if err := gobuster_scan.Run(); err != nil {
-		fmt.Println(err)
-	}
-	gobuster_chan, _ := gobuster_scan.Output()
-	c <- gobuster_chan
+	fmt.Println("Scripts are now running...")
+	go scripts.Nmap(*ip, *dir)
+	scripts.GoBuster(*ip, *dir, *wordlist, c)
 }
