@@ -55,5 +55,4 @@ func main() {
 	fmt.Println("Scripts are now running...")
 	go scripts.Nmap(*ip, *dir)
 	scripts.GoBuster(*ip, *dir, *wordlist, c)
-	close(c)
 }
