@@ -2,7 +2,13 @@
 
 Go implementation of CTFRecon.sh
 
-## To install
+Download the release binary to use or if you want to build the binary itself, make sure you have Go installed on local machine.
+
+## Easiest way to download the binary
+
+- `go install github.com/hambyhacks/CTFRecon-Go@latest`
+
+## To install manually
 
 ```bash
 1. git clone https://github.com/hambyhacks/CTFRecon-Go
