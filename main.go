@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"os/user"
 	"regexp"
@@ -32,7 +33,7 @@ func main() {
 	// Check args count, current user, and wordlist if it has `.txt` in it.
 	if len(os.Args) < 1 || user.Username != "root" || !regex_txt {
 		flag.PrintDefaults()
-		fmt.Println("Possible Errors: ", user.Username, len(os.Args), regex_txt)
+		log.Fatal("Possible Errors: ", user.Username, len(os.Args), regex_txt)
 		os.Exit(1)
 	}
 
@@ -45,7 +46,7 @@ func main() {
 	// Append IP to /etc/hosts file.
 	f, err := os.OpenFile("/etc/hosts", os.O_APPEND|os.O_WRONLY, 0600)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	defer f.Close()
 	f.WriteString(*ip + " " + *dir + "." + *platform + "\n")

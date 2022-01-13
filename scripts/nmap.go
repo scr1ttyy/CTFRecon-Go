@@ -2,6 +2,7 @@ package scripts
 
 import (
 	"fmt"
+	"log"
 	"net"
 	"os/exec"
 	"regexp"
@@ -16,7 +17,7 @@ func Nmap(ip, dir string) {
 
 	nmap_path, err := exec.LookPath("nmap")
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	nmap_scan := &exec.Cmd{
 		Path:   nmap_path,
@@ -25,7 +26,7 @@ func Nmap(ip, dir string) {
 		Stderr: nil,
 	}
 	if err := nmap_scan.Run(); err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 }

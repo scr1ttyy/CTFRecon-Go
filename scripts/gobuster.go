@@ -1,7 +1,7 @@
 package scripts
 
 import (
-	"fmt"
+	"log"
 	"os/exec"
 )
 
@@ -9,7 +9,7 @@ func GoBuster(ip, dir, wordlist string) {
 	var gobuster_result string = dir + "/" + ip + "/scans/" + dir + "_GoBusterScan.txt"
 	gobuster_path, err := exec.LookPath("gobuster")
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	gobuster_scan := &exec.Cmd{
 		Path:   gobuster_path,
@@ -18,6 +18,6 @@ func GoBuster(ip, dir, wordlist string) {
 		Stderr: nil,
 	}
 	if err := gobuster_scan.Run(); err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 }
