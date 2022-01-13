@@ -51,8 +51,7 @@ func main() {
 	f.WriteString(*ip + " " + *dir + "." + *platform + "\n")
 
 	// Run Scripts
-	c := make(chan []byte, 2)
 	fmt.Println("Scripts are now running...")
 	go scripts.Nmap(*ip, *dir)
-	scripts.GoBuster(*ip, *dir, *wordlist, c)
+	scripts.GoBuster(*ip, *dir, *wordlist)
 }
