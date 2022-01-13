@@ -30,17 +30,17 @@ func Nmap(ip, dir string) {
 		if err := nmap_scan.Run(); err != nil {
 			log.Fatal(err)
 		}
-	}
-
-	// Targeted scan
-	nmap_scan := &exec.Cmd{
-		Path:   nmap_path,
-		Args:   []string{nmap_path, "-A", "-T4", "-p", portsToScan, "-oN", nmap_result, ip, "--min-rate", "5000"},
-		Stdout: nil,
-		Stderr: nil,
-	}
-	if err := nmap_scan.Run(); err != nil {
-		log.Fatal(err)
+	} else {
+		// Targeted scan
+		nmap_scan := &exec.Cmd{
+			Path:   nmap_path,
+			Args:   []string{nmap_path, "-A", "-T4", "-p", portsToScan, "-oN", nmap_result, ip, "--min-rate", "5000"},
+			Stdout: nil,
+			Stderr: nil,
+		}
+		if err := nmap_scan.Run(); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 }
