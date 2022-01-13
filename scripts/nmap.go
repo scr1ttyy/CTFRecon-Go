@@ -75,8 +75,6 @@ func PortScan(host string) string {
 	if csvPorts == "" {
 		fmt.Println("Scanning all ports...")
 	}
-
-	fmt.Printf("[i] Open Ports: %s\n", csvPorts)
 	return csvPorts
 }
 
