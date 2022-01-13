@@ -21,7 +21,7 @@ func Nmap(ip, dir string) {
 	}
 	nmap_scan := &exec.Cmd{
 		Path:   nmap_path,
-		Args:   []string{nmap_path, "-A", "-T4", "-p", portsToScan, "-oN", nmap_result, ip, "--min-rate", "10000"},
+		Args:   []string{nmap_path, "-A", "-T4", "-p", portsToScan, "-oN", nmap_result, ip, "--min-rate", "5000"},
 		Stdout: nil,
 		Stderr: nil,
 	}
@@ -56,6 +56,7 @@ func PortScan(host string) string {
 		portNumbers := re.FindAllString(j, -1)
 		openPorts = append(openPorts, portNumbers...)
 	}
+
 	csvPorts := strings.Join(openPorts, ",")
 	fmt.Printf("[i] Ports to scan: %s\n", csvPorts)
 	return csvPorts
