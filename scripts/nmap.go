@@ -56,7 +56,7 @@ func PortScan(host string) string {
 		portNumbers := re.FindAllString(j, -1)
 		openPorts = append(openPorts, portNumbers...)
 	}
-	csvPorts := fmt.Sprint(strings.Join(openPorts, ","))
+	csvPorts := strings.Join(openPorts, ",")
 	fmt.Printf("[i] Ports to scan: %s\n", csvPorts)
 	return csvPorts
 }
