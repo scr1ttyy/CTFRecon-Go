@@ -2,10 +2,11 @@ package scripts
 
 import (
 	"log"
+	"os"
 	"os/exec"
 )
 
-func GoBuster(ip, dir, wordlist string) {
+func GoBuster(ip, dir, wordlist string, c chan []byte) chan []byte {
 	var gobuster_result string = dir + "/" + ip + "/scans/" + dir + "_GoBusterScan.txt"
 	gobuster_path, err := exec.LookPath("gobuster")
 	if err != nil {
@@ -15,9 +16,12 @@ func GoBuster(ip, dir, wordlist string) {
 		Path:   gobuster_path,
 		Args:   []string{gobuster_path, "dir", "-u", ip, "-w", wordlist, "-o", gobuster_result, "-t", "100"},
 		Stdout: nil,
-		Stderr: nil,
+		Stderr: os.Stderr,
 	}
 	if err := gobuster_scan.Run(); err != nil {
 		log.Fatal(err)
 	}
+	gobuster_out, _ := gobuster_scan.Output()
+	c <- gobuster_out
+	return c
 }
