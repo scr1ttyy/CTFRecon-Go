@@ -40,12 +40,11 @@ func Nmap(ip, dir string, c chan []byte) chan []byte {
 func PortScan(host string) string {
 	wg := sync.WaitGroup{}
 	listAddr := []string{}
-	ports := 65535
 
-	for i := 1; i <= ports; i++ {
+	for i := 1; i <= 65535; i++ {
 		address := fmt.Sprintf("%s:%d", host, i)
-		wg.Add(1)
 
+		wg.Add(1)
 		go func() {
 			defer wg.Done()
 			if CheckTCPConnection(address, 5) {
