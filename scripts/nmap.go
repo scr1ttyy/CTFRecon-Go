@@ -63,6 +63,7 @@ func PortScan(host string) string {
 	}
 
 	csvPorts := fmt.Sprint(strings.Join(openPorts, ","))
+	fmt.Println("[i] Open Ports: ", csvPorts)
 	return csvPorts
 }
 
