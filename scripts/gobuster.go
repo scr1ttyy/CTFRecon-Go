@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-func GoBuster(ip, dir, wordlist string, c chan []byte) chan []byte {
+func GoBuster(ip, dir, wordlist string) {
 	var gobuster_result string = dir + "/" + ip + "/scans/" + dir + "_GoBusterScan.txt"
 	gobuster_path, err := exec.LookPath("gobuster")
 	if err != nil {
@@ -21,7 +21,4 @@ func GoBuster(ip, dir, wordlist string, c chan []byte) chan []byte {
 	if err := gobuster_scan.Run(); err != nil {
 		log.Fatal(err)
 	}
-	gobuster_out, _ := gobuster_scan.Output()
-	c <- gobuster_out
-	return c
 }

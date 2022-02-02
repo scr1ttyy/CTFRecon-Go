@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func Nmap(ip, dir string, c chan []byte) chan []byte {
+func Nmap(ip, dir string) {
 	var nmap_result string = dir + "/" + ip + "/scans/" + dir + "_nmapScan.txt"
 	portsToScan := PortScan(ip)
 
@@ -31,10 +31,6 @@ func Nmap(ip, dir string, c chan []byte) chan []byte {
 	if err := nmap_scan.Run(); err != nil {
 		log.Fatal(err)
 	}
-
-	nmap_out, _ := nmap_scan.Output()
-	c <- nmap_out
-	return c
 }
 
 func PortScan(host string) string {
@@ -63,7 +59,7 @@ func PortScan(host string) string {
 	}
 
 	csvPorts := fmt.Sprint(strings.Join(openPorts, ","))
-	fmt.Printf("[i] Open Ports are :%s\n", csvPorts)
+	fmt.Printf("[i] Open Ports are: %s\n", csvPorts)
 	return csvPorts
 }
 
