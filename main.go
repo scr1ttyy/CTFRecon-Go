@@ -53,8 +53,10 @@ func main() {
 
 	// Run Scripts
 	fmt.Println("Scripts are now running...")
-	scripts.Nmap(*ip, *dir)
-	fmt.Println("[i] Nmap: Done")
+
+	go scripts.Nmap(*ip, *dir)
 	scripts.GoBuster(*ip, *dir, *wordlist)
-	fmt.Println("[i] GoBuster: Done")
+	fmt.Println("[i] Nmap: Done (Check /scans folder)")
+	fmt.Println("[i] GoBuster: Done (Check /scans folder)")
+
 }
