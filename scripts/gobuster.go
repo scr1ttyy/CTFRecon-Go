@@ -14,7 +14,7 @@ func GoBuster(ip, dir, wordlist string) {
 	}
 	gobuster_scan := &exec.Cmd{
 		Path:   gobuster_path,
-		Args:   []string{gobuster_path, "dir", "-u", ip, "-w", wordlist, "-o", gobuster_result, "-t", "100", "--exclude-length", "0-100"},
+		Args:   []string{gobuster_path, "dir", "-u", ip, "-w", wordlist, "-o", gobuster_result, "-t", "100"},
 		Stdout: nil,
 		Stderr: os.Stderr,
 	}
