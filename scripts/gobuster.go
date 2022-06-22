@@ -7,14 +7,14 @@ import (
 )
 
 func GoBuster(ip, dir, wordlist string) {
-	var gobuster_result string = dir + "/" + ip + "/scans/" + dir + "_GoBusterScan.txt"
-	gobuster_path, err := exec.LookPath("gobuster")
+	var result string = dir + "/" + ip + "/scans/" + dir + "_GoBusterScan.txt"
+	path, err := exec.LookPath("gobuster")
 	if err != nil {
 		panic(err)
 	}
 	gobuster_scan := &exec.Cmd{
-		Path:   gobuster_path,
-		Args:   []string{gobuster_path, "dir", "-u", ip, "-w", wordlist, "-o", gobuster_result, "-t", "100"},
+		Path:   path,
+		Args:   []string{path, "dir", "-u", ip, "-w", wordlist, "-o", result, "-t", "64"},
 		Stdout: nil,
 		Stderr: os.Stderr,
 	}

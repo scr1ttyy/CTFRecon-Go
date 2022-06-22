@@ -21,8 +21,18 @@ func main() {
 
 	// Variables
 	dir_list := []string{"exploit", "loot", "scans", "ss"}
-	user, _ := user.Current()
-	regex_txt, _ := regexp.MatchString(".txt", *wordlist)
+
+	u, err := user.Current()
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+
+	regex_txt, err := regexp.MatchString(".txt", *wordlist)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
 
 	// GoRecon Usage
 	if os.Args[1] == "-h" || os.Args[1] == "" {
@@ -31,9 +41,9 @@ func main() {
 	}
 
 	// Check args count, current user, and wordlist if it has `.txt` in it.
-	if len(os.Args) < 1 || user.Username != "root" || !regex_txt {
+	if len(os.Args) < 1 || u.Username != "root" || !regex_txt {
 		flag.PrintDefaults()
-		log.Fatal("Possible Errors: ", user.Username, len(os.Args), regex_txt)
+		log.Fatal("Possible Errors: ", u.Username, len(os.Args), regex_txt)
 		os.Exit(1)
 	}
 
